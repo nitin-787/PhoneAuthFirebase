@@ -1,16 +1,5 @@
 # phone_auth
 
-A new Flutter project.
+### Figma UI Map : [Here](https://www.figma.com/file/p5S9PfG77FeJv9W8iPKx4t/AuthScreen?node-id=1%3A3332&t=GRLITRN2JK9HKdId-1)
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://user-images.githubusercontent.com/76255199/204531009-1cabfcf9-5d07-4454-99d8-b6edd84c7b09.png" height=550>
