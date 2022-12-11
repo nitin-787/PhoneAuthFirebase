@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 // Define a list of country names and flags
 final List<String> countries = [
@@ -58,9 +57,11 @@ class _AuthScreenState extends State<AuthScreen> {
             TextButton(
               onPressed: () {},
               child: const Text(
-                'SKIP',
+                'Cancel',
                 style: TextStyle(
                   color: Color(0xff464c56),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),
@@ -71,12 +72,12 @@ class _AuthScreenState extends State<AuthScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Enter your mobile number',
-                style: GoogleFonts.poppins(
+                style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
-                  fontSize: 22,
+                  fontSize: 25,
                 ),
               ),
               const SizedBox(height: 20),
@@ -85,7 +86,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: const Color(0xff464c56),
+                      color: const Color(0xff242430),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: DropdownButtonHideUnderline(
@@ -93,7 +94,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         value: selectedCountry,
                         icon: const Icon(
                           Icons.keyboard_arrow_down,
-                          color: Colors.white,
+                          color: Color(0xff464c56),
                         ),
                         iconSize: 24,
                         onChanged: (String? newValue) {
@@ -116,13 +117,6 @@ class _AuthScreenState extends State<AuthScreen> {
                                   ),
                                 ),
                                 const SizedBox(width: 10),
-                                Text(
-                                  value,
-                                  style: const TextStyle(
-                                    fontSize: 19,
-                                    color: Colors.black,
-                                  ),
-                                ),
                               ],
                             ),
                           );
@@ -130,22 +124,29 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                     ),
                   ),
+                  // add a
                   const SizedBox(width: 20),
                   Expanded(
                     child: TextField(
+                      autofocus: true,
                       keyboardType: TextInputType.number,
                       maxLength: 10,
                       style: const TextStyle(
-                        fontSize: 19, // Increase font size
+                        fontSize: 21,
                         color: Color(0xff464c56),
                       ),
                       decoration: InputDecoration(
                         prefix: Text(
                           countryCodes[countries.indexOf(selectedCountry)],
-                          style: const TextStyle(
-                            fontSize: 19,
-                            color: Color(0xff464c56),
-                          ),
+                        ),
+                        prefixStyle: const TextStyle(
+                          fontSize: 21,
+                          color: Color(0xff464c56),
+                        ),
+                        counterText: '',
+                        hintText: 'Mobile Number',
+                        hintStyle: const TextStyle(
+                          color: Color(0xff464c56),
                         ),
                         focusedBorder: const OutlineInputBorder(
                           borderSide: BorderSide(
@@ -169,6 +170,39 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                   ),
                 ],
+              ),
+              const Spacer(),
+              const Text(
+                'By creating an account, you agree to our Terms of Service and Privacy Policy',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                  fontSize: 15,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: const Text(
+                    'Next',
+                    // add gilroy font
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
