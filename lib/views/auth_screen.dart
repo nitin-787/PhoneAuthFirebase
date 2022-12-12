@@ -60,7 +60,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 'Cancel',
                 style: TextStyle(
                   color: Color(0xff464c56),
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -77,7 +77,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
-                  fontSize: 25,
+                  fontSize: 23,
                 ),
               ),
               const SizedBox(height: 20),
@@ -93,6 +93,7 @@ class _AuthScreenState extends State<AuthScreen> {
                       child: DropdownButton<String>(
                         value: selectedCountry,
                         icon: const Icon(
+                          size: 30,
                           Icons.keyboard_arrow_down,
                           color: Color(0xff464c56),
                         ),
@@ -127,7 +128,9 @@ class _AuthScreenState extends State<AuthScreen> {
                   // add a
                   const SizedBox(width: 20),
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
+                      enableSuggestions: false,
+                      autocorrect: false,
                       autofocus: true,
                       keyboardType: TextInputType.number,
                       maxLength: 10,
@@ -136,16 +139,19 @@ class _AuthScreenState extends State<AuthScreen> {
                         color: Color(0xff464c56),
                       ),
                       decoration: InputDecoration(
+                        fillColor: const Color(0xff242430),
                         prefix: Text(
                           countryCodes[countries.indexOf(selectedCountry)],
                         ),
                         prefixStyle: const TextStyle(
-                          fontSize: 21,
+                          fontSize: 20,
                           color: Color(0xff464c56),
                         ),
                         counterText: '',
                         hintText: 'Mobile Number',
                         hintStyle: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
                           color: Color(0xff464c56),
                         ),
                         focusedBorder: const OutlineInputBorder(
@@ -177,8 +183,8 @@ class _AuthScreenState extends State<AuthScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  fontSize: 15,
+                  color: Color(0xff5B5B5B),
+                  fontSize: 16,
                 ),
               ),
               const SizedBox(
@@ -198,7 +204,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     'Next',
                     // add gilroy font
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 23,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
