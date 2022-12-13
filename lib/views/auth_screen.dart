@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phone_auth/views/otp_screen.dart';
 
 // Define a list of country names and flags
 final List<String> countries = [
@@ -7,6 +8,7 @@ final List<String> countries = [
   'China',
   'Russia',
   'Japan',
+  'Australia',
 ];
 final List<String> flags = [
   '🇮🇳',
@@ -14,14 +16,7 @@ final List<String> flags = [
   '🇨🇳',
   '🇷🇺',
   '🇯🇵',
-];
-
-final List<String> countryCodes = [
-  '+91',
-  '+1',
-  '+86',
-  '+7',
-  '+81',
+  '🇦🇺',
 ];
 
 // Define the initial selected country and flag
@@ -36,6 +31,20 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  late final TextEditingController _phoneController;
+
+  @override
+  void initState() {
+    _phoneController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,7 +56,7 @@ class _AuthScreenState extends State<AuthScreen> {
           leading: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
-              color: Color(0xff464c56),
+              color: Color(0xffB0B0B0),
             ),
             onPressed: () {
               Navigator.of(context).pop();
@@ -59,7 +68,7 @@ class _AuthScreenState extends State<AuthScreen> {
               child: const Text(
                 'Cancel',
                 style: TextStyle(
-                  color: Color(0xff464c56),
+                  color: Color(0xffB0B0B0),
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
@@ -91,6 +100,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
+                        dropdownColor: const Color(0xff242430),
                         value: selectedCountry,
                         icon: const Icon(
                           size: 30,
@@ -113,7 +123,7 @@ class _AuthScreenState extends State<AuthScreen> {
                                 Text(
                                   flags[countries.indexOf(value)],
                                   style: const TextStyle(
-                                    fontSize: 19,
+                                    fontSize: 25,
                                     color: Colors.grey,
                                   ),
                                 ),
@@ -125,10 +135,10 @@ class _AuthScreenState extends State<AuthScreen> {
                       ),
                     ),
                   ),
-                  // add a
                   const SizedBox(width: 20),
                   Expanded(
                     child: TextFormField(
+                      controller: _phoneController,
                       enableSuggestions: false,
                       autocorrect: false,
                       autofocus: true,
@@ -138,23 +148,17 @@ class _AuthScreenState extends State<AuthScreen> {
                         fontSize: 21,
                         color: Color(0xff464c56),
                       ),
-                      decoration: InputDecoration(
-                        fillColor: const Color(0xff242430),
-                        prefix: Text(
-                          countryCodes[countries.indexOf(selectedCountry)],
-                        ),
-                        prefixStyle: const TextStyle(
-                          fontSize: 20,
-                          color: Color(0xff464c56),
-                        ),
+                      decoration: const InputDecoration(
+                        fillColor: Color(0xff242430),
+                        contentPadding: EdgeInsets.all(20),
                         counterText: '',
                         hintText: 'Mobile Number',
-                        hintStyle: const TextStyle(
+                        hintStyle: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
-                          color: Color(0xff464c56),
+                          color: Color(0xffB0B0B0),
                         ),
-                        focusedBorder: const OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xff464c56),
                             width: 2.0,
@@ -163,7 +167,7 @@ class _AuthScreenState extends State<AuthScreen> {
                             Radius.circular(10),
                           ),
                         ),
-                        enabledBorder: const OutlineInputBorder(
+                        enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
                             color: Color(0xff464c56),
                             width: 2.0,
@@ -184,7 +188,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   color: Color(0xff5B5B5B),
-                  fontSize: 16,
+                  fontSize: 17,
                 ),
               ),
               const SizedBox(
@@ -193,7 +197,22 @@ class _AuthScreenState extends State<AuthScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (_phoneController.text == '' ||
+                        _phoneController.text.length != 10) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter a valid phone number'),
+                        ),
+                      );
+                      return;
+                    }
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const OtpScreen(),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     shape: RoundedRectangleBorder(
