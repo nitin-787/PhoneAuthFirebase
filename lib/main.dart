@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phone_auth/views/auth_screen.dart';
+import 'package:phone_auth/views/otp_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Gilroy',
       ),
-      home: const AuthScreen(),
+      home: const OtpScreen(),
     );
   }
 }

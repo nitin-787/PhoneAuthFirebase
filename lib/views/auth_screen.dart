@@ -198,7 +198,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (_phoneController.text == '' ||
+                    if (_phoneController.text.isEmpty ||
                         _phoneController.text.length != 10) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
