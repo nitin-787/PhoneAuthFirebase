@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:phone_auth/views/otp_screen.dart';
 
 // Define a list of country names and flags
@@ -90,97 +91,123 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      color: const Color(0xff242430),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        dropdownColor: const Color(0xff242430),
-                        value: selectedCountry,
-                        icon: const Icon(
-                          size: 30,
-                          Icons.keyboard_arrow_down,
-                          color: Color(0xff464c56),
-                        ),
-                        iconSize: 24,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedCountry = newValue!;
-                            selectedFlag = flags[countries.indexOf(newValue)];
-                          });
-                        },
-                        items: countries
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Row(
-                              children: [
-                                Text(
-                                  flags[countries.indexOf(value)],
-                                  style: const TextStyle(
-                                    fontSize: 25,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                              ],
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
+              InternationalPhoneNumberInput(
+                inputDecoration: const InputDecoration(
+                  hintText: 'Mobile Number',
+                  hintStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xffB0B0B0),
                   ),
-                  const SizedBox(width: 20),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _phoneController,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                      autofocus: true,
-                      keyboardType: TextInputType.number,
-                      maxLength: 10,
-                      style: const TextStyle(
-                        fontSize: 21,
-                        color: Color(0xff464c56),
-                      ),
-                      decoration: const InputDecoration(
-                        fillColor: Color(0xff242430),
-                        contentPadding: EdgeInsets.all(20),
-                        counterText: '',
-                        hintText: 'Mobile Number',
-                        hintStyle: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xffB0B0B0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xff464c56),
-                            width: 2.0,
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xff464c56),
-                            width: 2.0,
-                          ),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
+                onInputChanged: (PhoneNumber number) {},
+                onInputValidated: (bool value) {},
+                selectorConfig: const SelectorConfig(
+                  selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                ),
+                ignoreBlank: false,
+                autoValidateMode: AutovalidateMode.disabled,
+                selectorTextStyle: const TextStyle(color: Colors.white),
+                initialValue: PhoneNumber(isoCode: 'IN'),
+                textFieldController: _phoneController,
+                formatInput: false,
+                keyboardType: const TextInputType.numberWithOptions(
+                  signed: true,
+                  decimal: true,
+                ),
+                onSaved: (PhoneNumber number) {},
               ),
+              // Row(
+              //   children: [
+              //     Container(
+              //       padding: const EdgeInsets.all(10),
+              //       decoration: BoxDecoration(
+              //         color: const Color(0xff242430),
+              //         borderRadius: BorderRadius.circular(10),
+              //       ),
+              //       child: DropdownButtonHideUnderline(
+              //         child: DropdownButton<String>(
+              //           dropdownColor: const Color(0xff242430),
+              //           value: selectedCountry,
+              //           icon: const Icon(
+              //             size: 30,
+              //             Icons.keyboard_arrow_down,
+              //             color: Color(0xff464c56),
+              //           ),
+              //           iconSize: 24,
+              //           onChanged: (String? newValue) {
+              //             setState(() {
+              //               selectedCountry = newValue!;
+              //               selectedFlag = flags[countries.indexOf(newValue)];
+              //             });
+              //           },
+              //           items: countries
+              //               .map<DropdownMenuItem<String>>((String value) {
+              //             return DropdownMenuItem<String>(
+              //               value: value,
+              //               child: Row(
+              //                 children: [
+              //                   Text(
+              //                     flags[countries.indexOf(value)],
+              //                     style: const TextStyle(
+              //                       fontSize: 25,
+              //                       color: Colors.grey,
+              //                     ),
+              //                   ),
+              //                   const SizedBox(width: 10),
+              //                 ],
+              //               ),
+              //             );
+              //           }).toList(),
+              //         ),
+              //       ),
+              //     ),
+              //     const SizedBox(width: 20),
+              //     // Expanded(
+              //     //   child: TextFormField(
+              //     //     controller: _phoneController,
+              //     //     enableSuggestions: false,
+              //     //     autocorrect: false,
+              //     //     autofocus: true,
+              //     //     keyboardType: TextInputType.number,
+              //     //     maxLength: 10,
+              //     //     style: const TextStyle(
+              //     //       fontSize: 21,
+              //     //       color: Color(0xff464c56),
+              //     //     ),
+              //     //     decoration: const InputDecoration(
+              //     //       fillColor: Color(0xff242430),
+              //     //       contentPadding: EdgeInsets.all(20),
+              //     //       counterText: '',
+              //     //       hintText: 'Mobile Number',
+              //     //       hintStyle: TextStyle(
+              //     //         fontSize: 20,
+              //     //         fontWeight: FontWeight.w500,
+              //     //         color: Color(0xffB0B0B0),
+              //     //       ),
+              //     //       focusedBorder: OutlineInputBorder(
+              //     //         borderSide: BorderSide(
+              //     //           color: Color(0xff464c56),
+              //     //           width: 2.0,
+              //     //         ),
+              //     //         borderRadius: BorderRadius.all(
+              //     //           Radius.circular(10),
+              //     //         ),
+              //     //       ),
+              //     //       enabledBorder: OutlineInputBorder(
+              //     //         borderSide: BorderSide(
+              //     //           color: Color(0xff464c56),
+              //     //           width: 2.0,
+              //     //         ),
+              //     //         borderRadius: BorderRadius.all(
+              //     //           Radius.circular(10),
+              //     //         ),
+              //     //       ),
+              //     //     ),
+              //     //   ),
+              //     // ),
+              //   ],
+              // ),
               const Spacer(),
               const Text(
                 'By creating an account, you agree to our Terms of Service and Privacy Policy',
