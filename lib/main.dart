@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Gilroy',
       ),
-      home: const AuthScreen(),
+      home: const OtpScreen(),
     );
   }
 }
