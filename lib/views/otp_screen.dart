@@ -12,24 +12,9 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   final TextEditingController _otpController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
+  final bool _isLoading = false;
   bool _isResending = false;
   int _remainingTime = 30;
-
-  List<TextEditingController> _otpControllers = [
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-  ];
-
-  // Create a list of FocusNode objects
-  List<FocusNode> _otpFocusNodes = [
-    FocusNode(),
-    FocusNode(),
-    FocusNode(),
-    FocusNode(),
-  ];
 
   void startCountdown() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -50,7 +35,7 @@ class _OtpScreenState extends State<OtpScreen> {
         backgroundColor: const Color(0xff171926),
         body: Container(
           padding: const EdgeInsets.all(20),
-          child: Row(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
@@ -62,33 +47,32 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              for (int i = 0; i < 4; i++)
-                Container(
-                  width: 40,
-                  child: TextField(
-                    controller: _otpControllers[i],
-                    focusNode: _otpFocusNodes[i],
-                    keyboardType: TextInputType.number,
-                    textAlign: TextAlign.center,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                    ),
-                    onChanged: (text) {
-                      // When the text in the TextField changes, check if it has reached
-                      // the maximum length (1) and move the focus to the next TextField
-                      if (text.length == 1 && i < 3) {
-                        FocusScope.of(context)
-                            .requestFocus(_otpFocusNodes[i + 1]);
-                      }
-                    },
-                  ),
+              const Text(
+                "We've sent an OTP to your mobile number",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xff5B5B5B),
+                  fontSize: 18,
                 ),
-              SizedBox(width: 10),
-              // OtpField(
-              //   controller: _otpController,
-              //   numberOfFields: 4,
-              //   errorText: 'Please enter a valid OTP',
-              // ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  OtpField(
+                    controller: _otpController,
+                  ),
+                  OtpField(
+                    controller: _otpController,
+                  ),
+                  OtpField(
+                    controller: _otpController,
+                  ),
+                  OtpField(
+                    controller: _otpController,
+                  ),
+                ],
+              ),
               const SizedBox(height: 20),
               InkWell(
                 onTap: () async {
@@ -123,7 +107,7 @@ class _OtpScreenState extends State<OtpScreen> {
                         style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           color: Color(0xff5B5B5B),
-                          fontSize: 17,
+                          fontSize: 18,
                         ),
                       ),
               ),
@@ -137,14 +121,19 @@ class _OtpScreenState extends State<OtpScreen> {
                   : SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() {
-                              _isLoading = true;
-                            });
+                        onPressed: () async {
+                          if (_otpController.text.length != 4 ||
+                              _otpController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please enter a valid OTP'),
+                              ),
+                            );
+                            return;
                           }
                         },
                         style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xff7352EC),
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -169,39 +158,33 @@ class _OtpScreenState extends State<OtpScreen> {
 
 class OtpField extends StatelessWidget {
   final TextEditingController controller;
-  final int numberOfFields;
   final Color borderColor;
   final BorderRadius borderRadius;
   final double borderWidth;
-  final String errorText;
   final bool enabled;
 
   const OtpField({
     Key? key,
     required this.controller,
-    required this.numberOfFields,
-    this.borderColor = const Color(0xffB0B0B0),
-    this.borderRadius = const BorderRadius.all(Radius.circular(0)),
-    this.borderWidth = 2.0,
-    required this.errorText,
+    this.borderColor = const Color(0xff7352EC),
+    this.borderRadius = const BorderRadius.all(Radius.circular(10)),
+    this.borderWidth = 1.0,
     this.enabled = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     List<Widget> fields = List.generate(
-      numberOfFields,
+      1,
       (index) => SizedBox(
-        width: 45,
+        width: 55,
         child: TextFormField(
-          maxLength: 4,
-          controller: controller,
-          validator: (value) {
-            if (value?.length != numberOfFields) {
-              return errorText;
-            }
-            return null;
-          },
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+          maxLength: 1,
           decoration: InputDecoration(
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
@@ -225,9 +208,9 @@ class OtpField extends StatelessWidget {
       ),
     );
 
-    return Form(
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: fields,
       ),
     );
