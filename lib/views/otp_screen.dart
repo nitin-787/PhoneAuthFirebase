@@ -16,6 +16,21 @@ class _OtpScreenState extends State<OtpScreen> {
   bool _isResending = false;
   int _remainingTime = 30;
 
+  List<TextEditingController> _otpControllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+  ];
+
+  // Create a list of FocusNode objects
+  List<FocusNode> _otpFocusNodes = [
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+  ];
+
   void startCountdown() {
     Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingTime > 0) {
@@ -35,7 +50,7 @@ class _OtpScreenState extends State<OtpScreen> {
         backgroundColor: const Color(0xff171926),
         body: Container(
           padding: const EdgeInsets.all(20),
-          child: Column(
+          child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
@@ -47,11 +62,33 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-              OtpField(
-                controller: _otpController,
-                numberOfFields: 4,
-                errorText: 'Please enter a valid OTP',
-              ),
+              for (int i = 0; i < 4; i++)
+                Container(
+                  width: 40,
+                  child: TextField(
+                    controller: _otpControllers[i],
+                    focusNode: _otpFocusNodes[i],
+                    keyboardType: TextInputType.number,
+                    textAlign: TextAlign.center,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (text) {
+                      // When the text in the TextField changes, check if it has reached
+                      // the maximum length (1) and move the focus to the next TextField
+                      if (text.length == 1 && i < 3) {
+                        FocusScope.of(context)
+                            .requestFocus(_otpFocusNodes[i + 1]);
+                      }
+                    },
+                  ),
+                ),
+              SizedBox(width: 10),
+              // OtpField(
+              //   controller: _otpController,
+              //   numberOfFields: 4,
+              //   errorText: 'Please enter a valid OTP',
+              // ),
               const SizedBox(height: 20),
               InkWell(
                 onTap: () async {
